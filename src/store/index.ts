@@ -1,8 +1,24 @@
-import { createStore } from'vuex'
-import { flashcards } from "@/store/modules/flashcards";
+import {createStore as createVuexStore} from 'vuex'
+import flashcardStore from "@/store/modules/flashcardStore";
 
-export default createStore({
-  modules: {
-    flashcards,
-  }
+export const createStore = ( (app: any = null) => {
+    return createVuexStore({
+        state: {
+            authToken: ''
+        },
+        getters: {
+            getAuthToken(state: any) {
+                return state.authToken;
+            }
+        },
+        mutations: {
+            setAuthToken(state: any, authToken: string) {
+                state.authToken = authToken;
+            }
+        },
+        actions: {},
+        modules: {
+            flashcards: flashcardStore(app),
+        }
+    })
 })

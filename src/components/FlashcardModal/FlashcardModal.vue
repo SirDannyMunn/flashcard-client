@@ -3,50 +3,64 @@
     <div class="fields">
       <div class="modal-header-container">
         <p class="question-label">Question</p>
-        <FlashcardOptions class="flashcard-options" />
+        <FlashcardOptions class="flashcard-options"/>
       </div>
-      <p class="question-text">Somq question</p>
-      <p class="show-label">Show Answer</p>
-      <p class="answer-text">
-        The answer to the questionThe answer to the
-        questionThe answer to the questionThe answer to the
-        questionThe answer to the questionsdfasdfas
+      <p class="question-text">{{ nextFlashcard.question }}</p>
+      <a class="show-label" @click="answerHidden = !answerHidden">
+        <span v-if="answerHidden">Show Answer</span>
+        <!--        <span v-else>Hide Answer</span>-->
+      </a>
+      <p class="answer-text" v-show="answerHidden">
+        {{ nextFlashcard.answer }}
       </p>
     </div>
     <div class="modal-actions">
-      <div class="button">
+      <a @click="destroy(nextFlashcard)" class="button">
         <div class="button-base">
           <p class="text">Never</p>
         </div>
-      </div>
-      <div class="button">
+      </a>
+      <a @click="update(nextFlashcard, 'soon')" class="button">
         <div class="button-base-two">
           <p class="text">Soon</p>
         </div>
-      </div>
-      <div class="button">
+      </a>
+      <a @click="update(nextFlashcard, 'later')" class="button">
         <div class="button-base-two">
           <p class="text">Later</p>
         </div>
-      </div>
-      <div class="button">
+      </a>
+      <a @click="update(nextFlashcard, 'someday')" class="button">
         <div class="button-base-two">
           <p class="text">Someday</p>
         </div>
-      </div>
+      </a>
     </div>
   </div>
 </template>
 
 <script>
 import {flashcardGetters} from '@/store'
-import {mapGetters} from 'vuex'
+import FlashcardOptions from './FlashcardOptions';
+import {mapGetters, mapActions} from 'vuex'
+
 
 export default {
   name: "ViewFlashcardBody",
-  // components: { FlashcardOptions }
+  components: { FlashcardOptions },
+  data() {
+    return {
+      answerHidden: true
+    }
+  },
   computed: {
-    ...mapGetters('flashcards')
+    ...mapGetters(['nextFlashcard'])
+  },
+  methods: {
+    ...mapActions({
+      destroy: 'deleteFlashcard',
+      update: 'updateFlashcard'
+    })
   }
 };
 </script>
@@ -54,11 +68,16 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/app";
 
+.button {
+  cursor: pointer;
+}
+
 .view-flashcard-body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
+
 .fields {
   height: 70.54%;
   margin-bottom: 32px;
@@ -67,6 +86,7 @@ export default {
   align-items: flex-start;
   align-self: stretch;
 }
+
 .modal-header-container {
   margin-bottom: 12px;
   display: flex;
@@ -75,31 +95,37 @@ export default {
   height: -36px;
   align-self: stretch;
 }
+
 .question-label {
   color: $gray-700;
   text-align: right;
   @include inter-14-bold;
 }
+
 .flashcard-options {
   width: 24px;
   height: 24px;
 }
+
 .question-text {
   text-align: left;
   color: $black;
   margin-bottom: 12px;
   @include text-md-normal;
 }
+
 .show-label {
   color: $gray-700;
   margin-bottom: 12px;
   @include inter-14-bold;
 }
+
 .answer-text {
   max-width: 469px;
   color: $black;
   @include text-md-normal;
 }
+
 .modal-actions {
   height: 17.05%;
   display: flex;
@@ -107,15 +133,18 @@ export default {
   justify-content: center;
   align-self: stretch;
 }
+
 .button {
   border-radius: 8px;
   display: flex;
   align-items: flex-start;
   flex: 1;
+
   &:not(:last-of-type) {
     margin-right: 12px;
   }
 }
+
 .button-base {
   background-color: $red;
   overflow: hidden;
@@ -128,10 +157,12 @@ export default {
   flex: 1;
   border: 1px solid $red;
 }
+
 .text {
   color: $white;
   @include text-md-medium;
 }
+
 .button-base-two {
   background-color: $gray-4;
   overflow: hidden;

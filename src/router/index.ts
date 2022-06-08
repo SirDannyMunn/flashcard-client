@@ -1,11 +1,23 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import {baseUrl} from "@/config";
+// import store from '@/store'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'home',
     component: HomeView
+  },
+  {
+    path: '/callback',
+    name: 'callback',
+    beforeEnter: (to, from, next) => {
+      console.log('call function')
+      // appConfig.$auth.handleRedirectCallback()
+      next()
+    },
+    redirect: baseUrl
   },
   {
     path: '/about',
