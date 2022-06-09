@@ -11,7 +11,7 @@
       {{ currentFlashcard.answer }}
     </p>
     <div class="modal-actions">
-      <a @click="destroy(currentFlashcard.id)" class="button">
+      <a @click="destroy(currentFlashcard)" class="button">
         <div class="button-base">
           <p class="text">Never</p>
         </div>

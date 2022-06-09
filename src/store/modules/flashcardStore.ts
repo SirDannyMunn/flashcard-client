@@ -41,7 +41,7 @@ export default (app: any) => {
                 state.flashcards.push(payload);
             },
             deleteFlashcard(state: any, payload: any) {
-                const index = state.flashcards.findIndex((flashcard: any) => flashcard.id === payload.flashcardId);
+                const index = state.flashcards.findIndex((flashcard: any) => flashcard.flashcardId === payload.flashcardId);
                 state.flashcards.splice(index, 1);
             },
             updateFlashcard(state: any, payload: any) {
