@@ -1,8 +1,10 @@
 <template>
   <div class="flashcard-container" v-if="currentFlashcard" v-show="getMode == 'edit'">
-    <form @submit.prevent="update">
+    <form
+        @submit.prevent="update({flashcard: currentFlashcard, question: currentFlashcard.question, answer: currentFlashcard.answer})">
       <div class="input-field-group">
-        <input type="text" :value="currentFlashcard.question" @input="updateCurrentFlashcardQuestion" placeholder="Question">
+        <input type="text" :value="currentFlashcard.question" @input="updateCurrentFlashcardQuestion"
+               placeholder="Question">
         <input type="text" :value="currentFlashcard.answer" @input="updateCurrentFlashcardAnswer" placeholder="Answer">
       </div>
       <div class="modal-actions">
@@ -39,7 +41,7 @@ export default {
       this.$store.commit('updateCurrentFlashcardQuestion', {
         question: $event.target.value
       })
-    },
+f    },
     updateCurrentFlashcardAnswer($event) {
       this.$store.commit('updateCurrentFlashcardAnswer', {
         answer: $event.target.value

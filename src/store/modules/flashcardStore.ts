@@ -14,6 +14,7 @@ export default (app: any) => {
                 }
             ],
             editMode: true,
+            currentFlashcardIndex: null,
             mode: 'view'
         }),
         mutations: {
@@ -28,10 +29,10 @@ export default (app: any) => {
                 state.mode = mode
             },
             updateCurrentFlashcardQuestion(state: any, payload: any) {
-                state.flashcards[0].question = payload.question;
+                state.flashcards[state.currentFlashcardIndex].question = payload.question;
             },
             updateCurrentFlashcardAnswer(state: any, payload: any) {
-                state.flashcards[0].answer = payload.answer;
+                state.flashcards[state.currentFlashcardIndex].answer = payload.answer;
             },
 
             /**
@@ -109,7 +110,13 @@ export default (app: any) => {
                 return state.flashcards;
             },
             currentFlashcard(state: any) {
-                return state.flashcards.find((flashcard: any) => new Date(flashcard.activationDate) <= new Date()) || null
+                const flashcard = state.flashcards.find((flashcard: any) => new Date(flashcard.activationDate) <= new Date()) || null;
+
+                if (flashcard) {
+                    state.currentFlashcardIndex = state.flashcards.indexOf(flashcard);
+                }
+
+                return flashcard
             }
         }
     }
