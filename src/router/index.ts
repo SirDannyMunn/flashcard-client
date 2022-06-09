@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import CreateFlashcard from '../views/flashcards/CreateFlashcard.vue'
 import {baseUrl} from "@/config";
 // import store from '@/store'
 
@@ -8,6 +9,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     name: 'home',
     component: HomeView
+  },
+  {
+    path: '/flashcard/create',
+    name: 'createFlashcard',
+    component: CreateFlashcard
   },
   {
     path: '/callback',
