@@ -1,18 +1,27 @@
 <template>
   <div class="home">
-<!--    <img alt="Vue logo" src="../assets/logo.png">-->
+    <Modal>
+      <template v-slot:modal-header>
+        <p class="question-label">Question</p>
+        <FlashcardOptions class="flashcard-options"/>
+      </template>
+      <template v-slot:modal-contents>
+        <ViewMode/>
+        <EditMode/>
+      </template>
+    </Modal>
     <ModalContainer />
   </div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import ModalContainer from '@/components/Modal.vue'; // @ is an alias to /src
+import FlashcardOptions from '@/views/flashcards/FlashcardModal/FlashcardOptions.vue';
+import EditMode from "@/views/flashcards/FlashcardModal/EditMode.vue";
 
 @Options({
   components: {
-    // HelloWorld,
-    ModalContainer,
+    FlashcardOptions, EditMode
   },
 })
 export default class HomeView extends Vue {}

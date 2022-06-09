@@ -5,6 +5,7 @@ import router from './router'
 import {createStore} from './store'
 import axios, {AxiosRequestConfig} from 'axios';
 import {authConfig, baseUrl, apiEndpoint} from "@/config";
+import registerComponents from './components/_index';
 
 import {createAuth0} from '@auth0/auth0-vue';
 
@@ -44,7 +45,7 @@ app.config.globalProperties.$baseUrl = baseUrl;
 app.config.globalProperties.$apiEndpoint = apiEndpoint;
 
 const store = createStore(app)
-
+registerComponents(app)
 app.use(auth0);
 app.use(router);
 app.use(store);
