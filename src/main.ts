@@ -40,24 +40,14 @@ app.config.globalProperties.$axios.interceptors.request.use(
     }
 );
 
-
 app.config.globalProperties.$baseUrl = baseUrl;
 app.config.globalProperties.$apiEndpoint = apiEndpoint;
 
-
-// app.config.globalProperties.$auth.onRedirectCallback(async (appState: any) => {
-//   router.push(appState?.targetUrl || '/');
-// });
-//
-// app.config.globalProperties.$auth.onLogin(async (authResult: any) => {
-//   if (authResult?.accessToken) {
-//     app.config.globalProperties.$axios.defaults.headers.common['Authorization'] = `Bearer ${authResult.accessToken}`;
-//   }
-// });
-
 const store = createStore(app)
+
 app.use(auth0);
 app.use(router);
 app.use(store);
+
 
 app.mount('#app');
