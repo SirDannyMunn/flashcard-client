@@ -1,29 +1,32 @@
 <template>
-  <div class="flashcard-container" v-if="!this.loading" v-show="getMode != 'edit'">
-    <p class="question-text">{{ nextFlashcard.question }}</p>
+  <div v-if="!this.loading && !currentFlashcard">
+    <p>You don't have any available flashcards, create some</p>
+  </div>
+  <div class="flashcard-container" v-if="!this.loading && currentFlashcard !== null" v-show="getMode != 'edit'">
+    <p class="question-text">{{ currentFlashcard.question }}</p>
     <a class="show-label" @click="answerHidden = !answerHidden">
       <span v-if="answerHidden">Show Answer</span>
     </a>
     <p class="answer-text" v-show="!answerHidden">
-      {{ nextFlashcard.answer }}
+      {{ currentFlashcard.answer }}
     </p>
     <div class="modal-actions">
-      <a @click="destroy" class="button">
+      <a @click="destroy(currentFlashcard.id)" class="button">
         <div class="button-base">
           <p class="text">Never</p>
         </div>
       </a>
-      <a @click="update" class="button">
+      <a @click="update({flashcard: currentFlashcard, when: 'soon'})" class="button">
         <div class="button-base-two">
           <p class="text">Soon</p>
         </div>
       </a>
-      <a @click="update" class="button">
+      <a @click="update({flashcard: currentFlashcard, when: 'later'})" class="button">
         <div class="button-base-two">
           <p class="text">Later</p>
         </div>
       </a>
-      <a @click="update" class="button">
+      <a @click="update({flashcard: currentFlashcard, when: 'someday'})" class="button">
         <div class="button-base-two">
           <p class="text">Someday</p>
         </div>
@@ -33,6 +36,7 @@
 </template>
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
+import {createActivationDate} from "@/store/modules/flashcardLogicLayer";
 
 export default {
   name: 'FlashcardBody',
@@ -49,7 +53,7 @@ export default {
         .finally(() => (this.loading=false));
   },
   computed: {
-    ...mapGetters(['nextFlashcard', 'getMode']),
+    ...mapGetters(['currentFlashcard', 'getMode', 'createActivationDate']),
   },
   methods: {
     ...mapMutations([

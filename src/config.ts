@@ -1,4 +1,4 @@
-const apiId = '0shrdxtenh'
+const apiId = 'vvcq5112b1'
 const apiEndpoint = `https://${apiId}.execute-api.eu-west-2.amazonaws.com/dev`
 
 const baseUrl = 'http://localhost:8080'

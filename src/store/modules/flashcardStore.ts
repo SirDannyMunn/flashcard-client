@@ -1,3 +1,5 @@
+import {createActivationDate} from "@/store/modules/flashcardLogicLayer";
+
 export default (app: any) => {
     const axios = app.config.globalProperties.$axios;
 
@@ -25,10 +27,10 @@ export default (app: any) => {
             setMode(state: any, mode: string) {
                 state.mode = mode
             },
-            updateQuestion(state: any, payload: any) {
+            updateCurrentFlashcardQuestion(state: any, payload: any) {
                 state.flashcards[0].question = payload.question;
             },
-            updateAnswer(state: any, payload: any) {
+            updateCurrentFlashcardAnswer(state: any, payload: any) {
                 state.flashcards[0].answer = payload.answer;
             },
 
@@ -43,7 +45,7 @@ export default (app: any) => {
                 state.flashcards.splice(index, 1);
             },
             updateFlashcard(state: any, payload: any) {
-                const index = state.flashcards.findIndex((flashcard: any) => flashcard.id === payload.flashcardId);
+                const index = state.flashcards.findIndex((flashcard: any) => flashcard.flashcardId === payload.flashcardId);
                 state.flashcards[index].question = payload.question;
                 state.flashcards[index].answer = payload.answer;
                 state.flashcards[index].activationDate = payload.activationDate;
@@ -68,9 +70,7 @@ export default (app: any) => {
             },
             async createFlashcard({commit}: { commit: Function }, flashcard: any) {
                 try {
-                    const activationDate = new Date();
-                    activationDate.setDate(activationDate.getDate() + 3);
-                    const activationDateString = activationDate.toISOString().substring(0, 10);
+                    const activationDateString = createActivationDate('today')
 
                     const response = await axios.post('/flashcards', {
                         question: flashcard.question,
@@ -82,10 +82,20 @@ export default (app: any) => {
                     console.log(error);
                 }
             },
-            async updateFlashcard({commit}: { commit: Function }, flashcard: any) {
+            async updateFlashcard({commit}: { commit: Function }, payload: any) {
                 try {
-                    const response = await axios.put('/flashcards/' + flashcard.flashcardId, flashcard);
-                    commit('updateFlashcard', response.data);
+                    const data = {
+                        activationDate: payload.when ? createActivationDate(payload.when) : payload.flashcard.activationDate,
+                        question: payload.question ? payload.question : payload.flashcard.question,
+                        answer: payload.answer ? payload.answer : payload.flashcard.answer
+                    }
+
+                    await axios.put('/flashcards/' + payload.flashcard.flashcardId, data);
+
+                    commit('updateFlashcard', {
+                        ...payload.flashcard,
+                        ...data
+                    });
                 } catch (error) {
                     console.log(error);
                 }
@@ -98,13 +108,8 @@ export default (app: any) => {
             getFlashcards(state: any) {
                 return state.flashcards;
             },
-
-            nextFlashcard(state: any) {
-                return state.flashcards.length > 0 ? state.flashcards[0] : {
-                    flashcardId: 0,
-                    question: '',
-                    answer: '',
-                };
+            currentFlashcard(state: any) {
+                return state.flashcards.find((flashcard: any) => new Date(flashcard.activationDate) <= new Date()) || null
             }
         }
     }

@@ -1,9 +1,9 @@
 <template>
-  <div class="flashcard-container" v-show="getMode == 'edit'">
+  <div class="flashcard-container" v-if="currentFlashcard" v-show="getMode == 'edit'">
     <form @submit.prevent="update">
       <div class="input-field-group">
-        <input type="text" :value="nextFlashcard.question" @input="updateQuestion" placeholder="Question">
-        <input type="text" :value="nextFlashcard.answer" @input="updateAnswer" placeholder="Answer">
+        <input type="text" :value="currentFlashcard.question" @input="updateCurrentFlashcardQuestion" placeholder="Question">
+        <input type="text" :value="currentFlashcard.answer" @input="updateCurrentFlashcardAnswer" placeholder="Answer">
       </div>
       <div class="modal-actions">
         <a @click="setMode" class="button">
@@ -26,12 +26,7 @@ import {mapActions, mapGetters, mapMutations, mapState} from "vuex";
 export default {
   name: 'EditMode',
   computed: {
-    ...mapGetters(['nextFlashcard', 'getMode']),
-    ...mapState({
-      // question: state => console.log(state),
-      // answer: state => state.nextFlashcard.answer
-    }),
-
+    ...mapGetters(['currentFlashcard', 'getMode']),
   },
   methods: {
     ...mapMutations([
@@ -40,13 +35,13 @@ export default {
     ...mapActions({
       update: 'updateFlashcard',
     }),
-    updateQuestion($event) {
-      this.$store.commit('updateQuestion', {
+    updateCurrentFlashcardQuestion($event) {
+      this.$store.commit('updateCurrentFlashcardQuestion', {
         question: $event.target.value
       })
     },
-    updateAnswer($event) {
-      this.$store.commit('updateAnswer', {
+    updateCurrentFlashcardAnswer($event) {
+      this.$store.commit('updateCurrentFlashcardAnswer', {
         answer: $event.target.value
       })
     }
