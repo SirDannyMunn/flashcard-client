@@ -41,7 +41,7 @@ export default {
       this.$store.commit('updateCurrentFlashcardQuestion', {
         question: $event.target.value
       })
-f    },
+    },
     updateCurrentFlashcardAnswer($event) {
       this.$store.commit('updateCurrentFlashcardAnswer', {
         answer: $event.target.value
