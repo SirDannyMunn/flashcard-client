@@ -1,5 +1,7 @@
 import {createStore as createVuexStore} from 'vuex'
-import flashcardStore from "@/store/modules/flashcardStore";
+// import flashcardStore from "@/store/modules/flashcardStore";
+import videoStore from "@/store/modules/videoStore";
+import highlightStore from "@/store/modules/highlightStore";
 
 export const createStore = ( (app: any = null) => {
     return createVuexStore({
@@ -18,7 +20,9 @@ export const createStore = ( (app: any = null) => {
         },
         actions: {},
         modules: {
-            flashcards: flashcardStore(app),
+            // flashcards: flashcardStore(app),
+            video: videoStore(app),
+            highlight: highlightStore(app),
         }
     })
 })

@@ -6,6 +6,7 @@ import {createStore} from './store'
 import axios, {AxiosRequestConfig} from 'axios';
 import {authConfig, baseUrl, apiEndpoint} from "@/config";
 import registerComponents from './components/_index';
+import './bootstrap';
 
 import {createAuth0} from '@auth0/auth0-vue';
 
@@ -49,6 +50,4 @@ registerComponents(app)
 app.use(auth0);
 app.use(router);
 app.use(store);
-
-
 app.mount('#app');

@@ -1,5 +1,9 @@
 # client-vue
 
+```
+Use node 16.0.0
+```
+
 ## Project setup
 ```
 npm install
