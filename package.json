@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
+    "serve-ext": "vue-cli-service build --mode development --watch",
     "build": "vue-cli-service build"
   },
   "dependencies": {
@@ -11,6 +12,7 @@
     "@headlessui/vue": "^1.6.6",
     "@heroicons/vue": "^1.0.6",
     "axios": "^0.27.2",
+    "chmod-webpack-plugin": "^0.1.3",
     "jquery": "^3.6.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
@@ -19,9 +21,11 @@
     "vue-class-component": "^8.0.0-0",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0",
+    "webpack-manifest-plugin": "^5.0.0",
     "yt-player": "^3.5.0"
   },
   "devDependencies": {
+    "@types/firefox-webext-browser": "^67.0.2",
     "@vue/cli-plugin-pwa": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-plugin-typescript": "~5.0.0",
@@ -30,7 +34,8 @@
     "sass": "^1.32.7",
     "sass-loader": "^12.0.0",
     "tailwindcss": "^3.1.5",
-    "typescript": "~4.5.5"
+    "typescript": "~4.5.5",
+    "vue-cli-plugin-browser-extension": "tpccdaniel/vue-cli-plugin-browser-extension"
   },
   "browserslist": [
     "> 1%",
